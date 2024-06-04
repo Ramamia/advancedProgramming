@@ -1,0 +1,44 @@
+package advancedProgrammingSystem;
+
+public class StudentCounselingFile {
+    private String studentId;
+    private String DateOfAdmission;
+    private String DateOfBirth;
+    private String departmentChoices;
+    private String departmentAdmission;
+    
+    public StudentCounselingFile(String studentId, String DateOfAdmission, String DateOfBirth, String departmentChoices, String departmentAdmission) {
+        this.studentId = studentId;
+        this.DateOfAdmission = DateOfAdmission;
+        this.DateOfBirth = DateOfBirth;
+        this.departmentChoices = departmentChoices;
+        this.departmentAdmission = departmentAdmission;
+    }
+
+
+    //getters
+    public String getStudentId() {
+        return studentId;
+    }
+    public String getDOA() {
+        return DateOfAdmission;
+    }
+
+    public String getDOB() {
+        return DateOfBirth;
+    }
+    public String getDepartmentChoices() {
+        return departmentChoices;
+    }
+
+    public String getDepartmentAdmission() {
+        return departmentAdmission;
+    }
+    
+    
+    @Override
+    public String toString() {
+        return studentId + "," + DateOfAdmission + "," + DateOfBirth + "," + departmentChoices + "," + departmentAdmission;
+    }
+    
+}
