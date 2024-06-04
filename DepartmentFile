@@ -1,0 +1,36 @@
+package advancedProgrammingSystem;
+
+public class DepartmentFile {
+	    private String departmentId;
+	    private String departmentName;
+	    private String dateOfEstablishment;
+
+	    public DepartmentFile(String departmentId, String departmentName, String dateOfEstablishment) {
+	        this.departmentId = departmentId;
+	        this.departmentName = departmentName;
+	        this.dateOfEstablishment = dateOfEstablishment;
+	    }
+
+	    public String getDepartmentId() {
+	        return departmentId;
+	    }
+
+	    public String getDepartmentName() {
+	        return departmentName;
+	    }
+
+	    public String getDateOfEstablishment() {
+	        return dateOfEstablishment;
+	    }
+	    
+
+	    @Override
+	    public String toString() {
+	        return "Department ID: " + departmentId +
+	                ", Name: " + departmentName +
+	                ", Date of Establishment: " + dateOfEstablishment;
+	    }
+	}
+
+
+
