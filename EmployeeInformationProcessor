@@ -1,0 +1,65 @@
+package advancedProgrammingSystem;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class EmployeeInformationProcessor implements ProcessTextFiles {
+
+    private final static List<EmployeeFile> employeeFiles = new ArrayList<>();
+
+
+    @Override
+    public void readFile() throws IOException {
+        File myFile = new File("C:\\Users\\user\\Desktop\\rama\\advancedProgrammingSystem\\Employee_Information");
+        Scanner input = new Scanner(myFile);
+
+        // Skip header line
+        if (input.hasNextLine()) {
+            input.nextLine();
+        }
+
+        while (input.hasNextLine()) {
+            String line = input.nextLine();
+            String[] sections = line.split("\\|");
+            if (sections.length == 4) {
+                String employeeId = sections[0];
+                String dateOfBirth = sections[1];
+                String dateOfJoining = sections[2];
+                String departmentId = sections[3];
+
+                EmployeeFile employeeFile = new EmployeeFile(employeeId, dateOfBirth, dateOfJoining, departmentId);
+                employeeFiles.add(employeeFile);
+            }
+        }
+
+        input.close();
+    }
+
+    public List<EmployeeFile> getEmployeeFiles() {
+        return employeeFiles;
+    }
+
+    public static EmployeeFile getEmployeeByID(String employeeID) {
+        for (EmployeeFile employee : employeeFiles) {
+            if (employee.getEmployeeId().equals(employeeID)) {
+                return employee;
+            }
+        }
+        throw new IllegalArgumentException("Employee with ID " + employeeID +" not found.");
+    }
+ 
+    public static int countEmployeesInDepartment(String departmentId) {
+        int count = 0;
+        for (EmployeeFile emp : employeeFiles) {
+            if (emp.getDepartmentId().equals(departmentId)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+}
