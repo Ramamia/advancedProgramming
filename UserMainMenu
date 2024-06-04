@@ -1,1 +1,172 @@
+package advancedProgrammingSystem;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.List;
 
+public class UserMainMenu {
+    public static void main(String[] args) {
+        try {
+            DepartmentInformationProcessor departmentInput = new DepartmentInformationProcessor();
+            departmentInput.readFile();
+
+            EmployeeInformationProcessor employeeInput = new EmployeeInformationProcessor();
+            employeeInput.readFile();
+
+            StudentCounselingDataProcessor counselingInput = new StudentCounselingDataProcessor();
+            counselingInput.readFile();
+
+            StudentsPerformanceDataProcessor performanceInput = new StudentsPerformanceDataProcessor();
+            performanceInput.readFile();
+
+            Scanner input = new Scanner(System.in);
+
+            int userChoice;
+            do {
+                displayMenu();
+                System.out.print("Enter your choice: ");
+                userChoice = input.nextInt();
+                input.nextLine(); // Consume newline
+
+                switch (userChoice) {
+                case 1:
+                    // Retrieve department information by ID
+                    System.out.println("Enter the department's ID: ");
+                    String departmentCaseOne = input.nextLine();
+                    try {
+                        DepartmentFile department = DepartmentInformationProcessor.getDepartmentByID(departmentCaseOne);
+                        System.out.println("Department found: " + department);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 2:
+                    // Retrieve employee information by ID
+                    System.out.println("Enter the employee's ID: ");
+                    String employeeCaseTwo = input.nextLine();
+                    EmployeeFile employee = EmployeeInformationProcessor.getEmployeeByID(employeeCaseTwo);
+                    if (employee != null) {
+                        // Employee found, print details
+                        System.out.println("Employee found: " + employee);
+                    } else {
+                        // Employee not found
+                        System.out.println("Employee with ID " + employeeCaseTwo + " not found.");
+                    }
+                    break;
+                case 3:
+                    // Retrieve student counseling information by ID
+                    System.out.println("Enter the student's ID: ");
+                    String studentCaseThree = input.nextLine();
+                    try {
+                        StudentCounselingFile counselingInfo = StudentCounselingDataProcessor.getCounselingInfoByStudentID(studentCaseThree);
+                        System.out.println("Counseling information for student with ID " + studentCaseThree + ":");
+                        System.out.println(counselingInfo);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 4:
+                    // Retrieve student performance information by ID
+                    System.out.println("Enter the student's ID: ");
+                    String studentCaseFour = input.nextLine();
+                    try {
+                        // Retrieve the performance information for the student
+                        List<StudentPerformanceFile> performanceInfo = StudentsPerformanceDataProcessor.getPerformanceByStudentID(studentCaseFour);
+
+                        // Print performance information
+                        System.out.println("Performance information for student with ID " + studentCaseFour + ":");
+                        for (StudentPerformanceFile performance : performanceInfo) {
+                            System.out.println(performance);
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 5:
+                    // Retrieve all students’ information for a department by admission date range
+                    System.out.println("enter start date(YYYY-MM-DD): ");
+                    String startDateDOA = input.nextLine();
+                    System.out.println("enter end date(YYYY-MM-DD): ");
+                    String endDateDOA = input.nextLine();
+                    System.out.println("students with admission date between: " + startDateDOA + " and " + endDateDOA);
+                    
+                    // Retrieve students within the specified date range
+                    List<StudentCounselingFile> studentsInRange = StudentCounselingDataProcessor.getStudentsByDOARange(startDateDOA, endDateDOA);
+                    
+                    // Print student information
+                    for (StudentCounselingFile student : studentsInRange) {
+                        System.out.println(student);
+                    }
+                    break;
+                case 6:
+                    // Retrieve students’ information with date of birth within a range of dates
+                    System.out.println("enter start date(YYYY-MM-DD): ");
+                    String startDateDOB = input.nextLine();
+                    System.out.println("enter end date(YYYY-MM-DD): ");
+                    String endDateDOB = input.nextLine();
+                    System.out.println("students with date of birth between: " + startDateDOB + " and " + endDateDOB);
+
+                    // Retrieve students within the specified date of birth range
+                    List<StudentCounselingFile> studentsDOBRange = StudentCounselingDataProcessor.getStudentsByDOBRange(startDateDOB, endDateDOB);
+
+                    // Print student information
+                    for (StudentCounselingFile student : studentsDOBRange) {
+                        System.out.println(student);
+                    }
+                    break;
+                case 7:
+                    // Perform statistical operations on student performance info
+                    System.out.println("Enter the student's ID: ");
+                    String studentCaseSeven = input.nextLine();
+                    System.out.println("Number of papers: " + StudentsPerformanceDataProcessor.numberOfPapers(studentCaseSeven));
+                    System.out.println("Number of Semesters: " + StudentsPerformanceDataProcessor.numberOfSemesters(studentCaseSeven));
+                    System.out.println("Average mark: " + StudentsPerformanceDataProcessor.averageMarks(studentCaseSeven));
+                    System.out.println("Sum of marks: " + StudentsPerformanceDataProcessor.sumOfMarks(studentCaseSeven));
+                    System.out.println("Max mark: " + StudentsPerformanceDataProcessor.maxMarks(studentCaseSeven));
+                    System.out.println("Min mark: " + StudentsPerformanceDataProcessor.minMarks(studentCaseSeven));
+                    break;
+                case 8:
+                    // Perform statistical operations on departments
+                    System.out.println("Enter the department's ID: ");
+                    String departmentID = input.nextLine();
+                    int empNums = EmployeeInformationProcessor.countEmployeesInDepartment(departmentID);
+                    int studentNums = StudentCounselingDataProcessor.countStudentsInDepartment(departmentID);
+
+                    System.out.println("Number of employees: " + empNums);
+                    System.out.println("Number of students: " + studentNums);
+                    break;
+                    case 9:
+                        // Retrieve student and employee info for a specific department
+                        System.out.println("Enter the department's ID: ");
+                        String departmentCaseNine = input.nextLine(); 
+                        DepartmentInformationProcessor.displayInfoByDepartmentId(departmentCaseNine, counselingInput.getCounsellingInfoList(), employeeInput.getEmployeeFiles());
+                        break;
+                    case 10:
+                        System.out.println("Exiting system BYEE...");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please enter a number between 0 and 9.");
+                        break;
+                }
+            } while (userChoice != 10);
+
+            input.close();
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+
+    private static void displayMenu() {
+        System.out.println("1. Retrieve department information by ID");
+        System.out.println("2. Retrieve employee information by ID");
+        System.out.println("3. Retrieve student counseling information by ID");
+        System.out.println("4. Retrieve student performance information by ID");
+        System.out.println("5. Retrieve all students’ information for a department by admission date range");
+        System.out.println("6. Retrieve students’ information with date of birth within a range of dates");
+        System.out.println("7. Perform statistical operations on student performance info");
+        System.out.println("8. Perform statistical operations on departments");
+        System.out.println("9. Retrieve student and employee info for a specific department");
+        System.out.println("10. Exit");
+    }
+
+
+}
