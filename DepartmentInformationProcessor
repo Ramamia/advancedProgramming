@@ -1,0 +1,78 @@
+package advancedProgrammingSystem;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class DepartmentInformationProcessor implements ProcessTextFiles {
+    private final static List<DepartmentFile> departmentFiles = new ArrayList<>();
+
+
+    @Override
+    public void readFile() throws IOException {
+        File myFile = new File("C:\\Users\\user\\Desktop\\rama\\advancedProgrammingSystem\\Department_Information");
+        Scanner input = new Scanner(myFile);
+
+        // Skip header line
+        if (input.hasNextLine()) {
+            input.nextLine();
+        }
+
+        while (input.hasNextLine()) {
+            String line = input.nextLine();
+            String[] sections = line.split("\\|");
+            if (sections.length == 3) {
+                String departmentId = sections[0];
+                String departmentName = sections[1];
+                String dateOfEstablishment = sections[2];
+
+                DepartmentFile departmentFile = new DepartmentFile(departmentId, departmentName, dateOfEstablishment);
+                departmentFiles.add(departmentFile);
+            }
+        }
+        input.close();
+    }
+
+    public List<DepartmentFile> getDepartmentFiles() {
+        return departmentFiles;
+    }
+
+    public static DepartmentFile getDepartmentByID(String departmentID) {
+        for (DepartmentFile department : departmentFiles) {
+            if (department.getDepartmentId().equals(departmentID)) {
+                return department;
+            }
+        }
+        throw new IllegalArgumentException("Department with ID " + departmentID + " not found.");
+    }
+
+    public static void displayInfoByDepartmentId(String departmentId, List<StudentCounselingFile> studentCounselingFiles, List<EmployeeFile> employeeFiles) {
+        List<StudentCounselingFile> filteredStudents = new ArrayList<>();
+        for (StudentCounselingFile student : studentCounselingFiles) {
+            if (student.getDepartmentChoices().equals(departmentId)) {
+                filteredStudents.add(student);
+            }
+        }
+
+        List<EmployeeFile> filteredEmployees = new ArrayList<>();
+        for (EmployeeFile employee : employeeFiles) {
+            if (employee.getDepartmentId().equals(departmentId)) {
+                filteredEmployees.add(employee);
+            }
+        }
+
+        System.out.println("Department ID: " + departmentId);
+        System.out.println("Students in this department:");
+        for (StudentCounselingFile student : filteredStudents) {
+            System.out.println(student.toString());
+        }
+
+        System.out.println("Employees in this department:");
+        for (EmployeeFile employee : filteredEmployees) {
+            System.out.println(employee.toString());
+        }
+    }
+
+}
