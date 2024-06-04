@@ -1,0 +1,39 @@
+package advancedProgrammingSystem;
+public class EmployeeFile {
+	  private String employeeId;
+	    private String dateOfBirth;
+	    private String dateOfJoining;
+	    private String departmentId;
+
+	    public EmployeeFile(String employeeId, String dateOfBirth, String dateOfJoining, String departmentId) {
+	        this.employeeId = employeeId;
+	        this.dateOfBirth = dateOfBirth;
+	        this.dateOfJoining = dateOfJoining;
+	        this.departmentId = departmentId;
+	    }
+
+	    public String getEmployeeId() {
+	        return employeeId;
+	    }
+
+	    public String getDateOfBirth() {
+	        return dateOfBirth;
+	    }
+
+	    public String getDateOfJoining() {
+	        return dateOfJoining;
+	    }
+
+	    public String getDepartmentId() {
+	        return departmentId;
+	    }
+
+
+	    @Override
+	    public String toString() {
+	        return "Employee ID: " + employeeId + 
+	               ", Date of Birth: " + dateOfBirth + 
+	               ", Date of Joining: " + dateOfJoining + 
+	               ", Department ID: " + departmentId;
+	    }
+}
