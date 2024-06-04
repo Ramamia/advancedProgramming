@@ -1,0 +1,8 @@
+package advancedProgrammingSystem;
+import java.io.IOException;
+
+public interface ProcessTextFiles {
+	 void readFile() throws IOException;
+}
+
+
