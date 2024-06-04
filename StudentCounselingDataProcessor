@@ -1,0 +1,89 @@
+package advancedProgrammingSystem;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class StudentCounselingDataProcessor implements ProcessTextFiles {
+    private final static List<StudentCounselingFile> counsellingInfoList = new ArrayList<>();
+
+    @Override
+    public void readFile() throws IOException {
+        File myFile = new File("C:\\Users\\user\\Desktop\\rama\\advancedProgrammingSystem\\Student_Counceling_Information");
+        Scanner input = new Scanner(myFile);
+
+        // Skip header line
+        if (input.hasNextLine()) {
+            input.nextLine();
+        }
+
+        while (input.hasNextLine()) {
+            String line = input.nextLine();
+            String[] sections = line.split("\\|");
+
+            // Ensure there are enough parts to create a StudentCounselingFile object
+            if (sections.length == 5) {
+                String studentId = sections[0];
+                String dateOfAdmission = sections[1];
+                String dateOfBirth = sections[2];
+                String departmentChoices = sections[3];
+                String departmentAdmission = sections[4];
+
+                // Create a StudentCounselingFile object and add it to the list
+                StudentCounselingFile info = new StudentCounselingFile(studentId, dateOfAdmission, dateOfBirth, departmentChoices, departmentAdmission);
+                counsellingInfoList.add(info);
+            }
+        }
+        input.close();
+    }
+
+    public List<StudentCounselingFile> getCounsellingInfoList() {
+        return counsellingInfoList;
+    }
+
+    public static StudentCounselingFile getCounselingInfoByStudentID(String studentID) {
+        for (StudentCounselingFile counseling : counsellingInfoList) {
+            if (counseling.getStudentId().equals(studentID)) {
+                return counseling;
+            }
+        }
+        throw new IllegalArgumentException("Student with ID " + studentID + " not found.");
+    }
+    
+    // to Retrieve all students’ information for students in a given department Dates of Admission within a range of Dates
+    
+    public static List<StudentCounselingFile> getStudentsByDOARange(String startDate, String endDate) {
+        List<StudentCounselingFile> filteredStudents = new ArrayList<>();
+
+        for (StudentCounselingFile student : counsellingInfoList) {
+            if (student.getDOA().compareTo(startDate) >= 0 && student.getDOA().compareTo(endDate) <= 0) {
+                filteredStudents.add(student);
+            }
+        }
+        return filteredStudents;
+    }
+
+    // to Retrieve all students’ information for students in a given department Dates of Birth within a range of Dates
+    public static List<StudentCounselingFile> getStudentsByDOBRange(String startDate, String endDate) {
+        List<StudentCounselingFile> filteredStudents = new ArrayList<>();
+
+        for (StudentCounselingFile student : counsellingInfoList) {
+            if (student.getDOB().compareTo(startDate) >= 0 && student.getDOB().compareTo(endDate) <= 0) {
+                filteredStudents.add(student);
+            }
+        }
+        return filteredStudents;
+    }
+    public static int countStudentsInDepartment(String departmentId) {
+        int count = 0;
+        for (StudentCounselingFile student : counsellingInfoList) {
+            if (student.getDepartmentAdmission().equals(departmentId)) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
